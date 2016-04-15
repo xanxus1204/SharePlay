@@ -5,7 +5,7 @@
 //  Created by 椛島優 on 2016/04/12.
 //  Copyright © 2016年 椛島優. All rights reserved.
 //
-
+//こみっとてすと
 import UIKit
 
 class FirstViewController: UIViewController {
