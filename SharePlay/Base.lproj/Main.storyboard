@@ -1,25 +1,124 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--First View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="first" id="BYZ-38-t0r" customClass="FirstViewController" customModule="SharePlay" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhP-r7-auZ">
+                                <rect key="frame" x="16" y="110" width="343" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DCc-rX-FZJ">
+                                <rect key="frame" x="16" y="242" width="130" height="122"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="122" id="aE3-vZ-6LU"/>
+                                    <constraint firstAttribute="width" constant="130" id="syb-H0-1gB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="部屋を作る"/>
+                                <connections>
+                                    <action selector="createButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OeT-hP-COx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFR-FU-Qmy">
+                                <rect key="frame" x="229" y="242" width="130" height="122"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="122" id="fpD-nx-ucJ"/>
+                                    <constraint firstAttribute="width" constant="130" id="juq-69-jmS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="部屋を探す"/>
+                                <connections>
+                                    <action selector="searchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HrN-wy-xDM"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="JFR-FU-Qmy" secondAttribute="trailing" id="3i8-Be-b3h"/>
+                            <constraint firstItem="fhP-r7-auZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="IB8-pv-ucK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fhP-r7-auZ" secondAttribute="trailing" id="Tbe-u3-Quu"/>
+                            <constraint firstItem="fhP-r7-auZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="90" id="Yih-r9-hhR"/>
+                            <constraint firstItem="JFR-FU-Qmy" firstAttribute="top" secondItem="fhP-r7-auZ" secondAttribute="bottom" constant="102" id="j8H-et-OL5"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="DCc-rX-FZJ" secondAttribute="leading" id="mi1-ZC-SjN"/>
+                            <constraint firstItem="DCc-rX-FZJ" firstAttribute="top" secondItem="fhP-r7-auZ" secondAttribute="bottom" constant="102" id="ved-UL-ow4"/>
+                        </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="nameText" destination="fhP-r7-auZ" id="2tl-1Y-xpb"/>
+                        <segue destination="mX2-fW-NuJ" kind="presentation" identifier="firstToSecond" id="6iV-tc-TXh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="337.5" y="514.5"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="3FK-y6-klL">
+            <objects>
+                <viewController storyboardIdentifier="second" id="mX2-fW-NuJ" customClass="SecondViewController" customModule="SharePlay" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rjx-LZ-CJ3"/>
+                        <viewControllerLayoutGuide type="bottom" id="h4T-ra-BxH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fa9-El-JEj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Gng-Rf-Ghn">
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="h4T-ra-BxH" firstAttribute="top" secondItem="Gng-Rf-Ghn" secondAttribute="bottom" id="KzG-BY-sJ9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Gng-Rf-Ghn" secondAttribute="trailing" id="W81-MN-M5h"/>
+                            <constraint firstItem="Gng-Rf-Ghn" firstAttribute="top" secondItem="rjx-LZ-CJ3" secondAttribute="bottom" id="ivM-eR-M6k"/>
+                            <constraint firstItem="Gng-Rf-Ghn" firstAttribute="leading" secondItem="fa9-El-JEj" secondAttribute="leadingMargin" id="ve8-pE-xr4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="tI4-rw-rni" kind="presentation" identifier="Second to Third" id="Mpv-dl-Va0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fJC-JR-Vx0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="881.5" y="514.5"/>
+        </scene>
+        <!--Third View Controller-->
+        <scene sceneID="RcS-Lr-LWf">
+            <objects>
+                <viewController storyboardIdentifier="third" id="tI4-rw-rni" customClass="ThirdViewController" customModule="SharePlay" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uXN-Nx-gwq"/>
+                        <viewControllerLayoutGuide type="bottom" id="z8O-Cg-0Aj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Y9-rF-3db">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P70-LC-UD0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1387.5" y="514.5"/>
         </scene>
     </scenes>
 </document>
