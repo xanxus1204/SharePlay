@@ -38,10 +38,12 @@ class MultiPeerNetwork: NSObject,MCSessionDelegate,MCNearbyServiceAdvertiserDele
     
     func startServerWithName(name :String?) -> () {
         if let nameStr = name {
-             nearbyAd = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: nameStr)
-             nearbyAd.delegate = self
-             nearbyAd.startAdvertisingPeer()
-             recvData = NSMutableData()
+            if nameStr.characters.count > 15{
+                print("tooManyString")
+            }else if nameStr.lowercaseString != nameStr{
+                print("Contains UpperCaseString")
+            }
+            
         }
     }
     func startClientWithName(name: String?) -> () {

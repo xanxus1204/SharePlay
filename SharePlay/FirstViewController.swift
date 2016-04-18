@@ -8,7 +8,7 @@
 //こみっとてすと
 import UIKit
 
-class FirstViewController: UIViewController {
+class FirstViewController: UIViewController,UITextFieldDelegate{
 
     var  multiPeer :MultiPeerNetwork!
     var roomName:String?
@@ -17,6 +17,8 @@ class FirstViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameText.delegate = self
+        nameText.keyboardType = UIKeyboardType.Alphabet
         multiPeer = MultiPeerNetwork()
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -50,6 +52,10 @@ class FirstViewController: UIViewController {
             self.presentViewController(nextViewController,animated: true,completion: nil)
         }
 
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        nameText.resignFirstResponder()
+        return true
     }
 }
 
