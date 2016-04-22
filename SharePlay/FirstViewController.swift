@@ -8,14 +8,9 @@
 //こみっとてすと
 import UIKit
 import MultipeerConnectivity
-class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegate,MCNearbyServiceAdvertiserDelegate,MCNearbyServiceBrowserDelegate{
+class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegate,MCNearbyServiceAdvertiserDelegate,MCNearbyServiceBrowserDelegate,UITableViewDataSource,UITableViewDelegate{
     var conectedPeerNum: Int = 0  //接続人数
     
-    let bufferSize = 32768
-    
-    var stateofPeers = [MultipeerData]()
-    
-    var recvData : NSMutableData?
     
     var peerID: MCPeerID!
     
@@ -26,9 +21,18 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     var nearbyAd: MCNearbyServiceAdvertiser!
     
     var roomName:String?
+    
+    var peerNameArray:[String] = []
+    
+    var stateOfPeerDic:Dictionary = ["":9]
+    
+    var buttonState = false
+
     @IBOutlet weak var nameText: UITextField!
     
+    @IBOutlet weak var peerTable: UITableView!
     
+    @IBOutlet weak var startButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         nameText.delegate = self
@@ -39,7 +43,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
         session = MCSession(peer: peerID)
         session.delegate = self
         
-        
+        startButton.hidden = true;
 
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -51,7 +55,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     }
 
     @IBAction func createButtonTapped(sender: AnyObject) {
-         self.segueFirstToSecond()
+        
         if let roomName = self.nameText.text {
             
             startServerWithName(roomName)
@@ -62,13 +66,17 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     }
 
     @IBAction func searchButtonTapped(sender: AnyObject) {
-         self.segueFirstToSecond()
+        segueFirstToSecond()
         if let roomName = self.nameText.text {
            startClientWithName(roomName)
         }
        
     }
     
+    @IBAction func startButtonTapped(sender: AnyObject) {
+        segueFirstToSecond()
+    }
+    // MARK: segue
     func segueFirstToSecond(){
         //画面遷移処理
         if let nextViewController = storyboard?.instantiateViewControllerWithIdentifier("second") as? SecondViewController{
@@ -77,33 +85,47 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
         }
 
     }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "second"{
+            let secondViewController:SecondViewController = segue.destinationViewController as! SecondViewController
+            secondViewController.session = self.session
+            secondViewController.peerNameArray = self.peerNameArray
+            secondViewController.stateOfPeerDic = self.stateOfPeerDic
+        }
+    }
+    //MARK: Uitextfiled delegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         nameText.resignFirstResponder()
         return true
     }
-    
+       
     func startServerWithName(name :String?) -> () {
         if let nameStr = name {
-            if nameStr.characters.count > 15{
-                print("tooManyString")
+            if nameStr.characters.count > 15 || nameStr.characters.count < 5{
+                print("tooManyString or less")
             }else if nameStr.lowercaseString != nameStr{
                 print("Contains UpperCaseString")
+            }else if let str = nameStr.rangeOfString(" "){
+                print(str)
+                print("Contains space")
             }else{
+
                 nearbyAd = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: nameStr)
                 nearbyAd.delegate = self
-                
                 nearbyAd.startAdvertisingPeer()
-                recvData = NSMutableData()
-            }
+                            }
             
         }
     }
     func startClientWithName(name: String?) -> () {
         if let nameStr = name{
-            if nameStr.characters.count > 15{
-                print("tooManyString")
+            if nameStr.characters.count > 15 || nameStr.characters.count < 5{
+                print("tooManyString or less")
             }else if nameStr.lowercaseString != nameStr{
                 print("Contains UpperCaseString")
+            }else if let str = nameStr.rangeOfString(" "){
+                print(str)
+                print("Contains space")
             }else{
                 browser = MCNearbyServiceBrowser(peer: peerID, serviceType: nameStr)
                 browser.delegate = self
@@ -111,42 +133,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
             }
         }
     }
-    func sendData(data:NSData) -> () {
-        var splitDataSize = bufferSize
-        //var indexofData = 0
-        var buf = Array<Int8>(count: bufferSize, repeatedValue: 0)
-        //var error: NSError!
-        var tempData = NSMutableData()
-        var index = 0
-        while index < data.length {
-            index=index+bufferSize
-            if (index >= data.length-bufferSize) || (data.length < bufferSize) {
-                splitDataSize = data.length - index
-                buf = Array<Int8>(count: splitDataSize, repeatedValue: 0)
-                
-                data.getBytes(&buf, range: NSMakeRange(index,splitDataSize))
-                tempData = NSMutableData(bytes: buf, length: splitDataSize)
-                do {
-                    try session.sendData(tempData, toPeers: session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
-                }catch{
-                    
-                    print("Send Failed")
-                }
-                
-            }else{
-                data.getBytes(&buf, range: NSMakeRange(index,splitDataSize))
-                tempData = NSMutableData(bytes: buf,length:splitDataSize)
-                do{
-                    try session.sendData(tempData, toPeers: session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
-                }catch{
-                    print("Failed")
-                    
-                }
-            }
-            
-        }
         
-    }
     
     
     
@@ -170,9 +157,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     
     
     
-    
-    
-    // MARK: MCNearbyServicedelegate
+    // MARK: MCSession delegate
     
     func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         
@@ -186,11 +171,32 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
         
         if state == MCSessionState.Connected {
+            
+           
+            stateOfPeerDic[peerID.displayName]=peerNameArray.count
+            peerNameArray.append(peerID.displayName)
+            dispatch_async(dispatch_get_main_queue(), {() -> Void in
+                self.peerTable.reloadData()
+                })
             print("接続完了")
+            if self.buttonState == true{
+                self.startButton.hidden = false
+            }
+            if let connection = self.browser{
+                connection.stopBrowsingForPeers()
+            }
+           
+           
             //その人の端末の名前と接続状況の更新
             //あと接続時の通知
         }else if state == MCSessionState.NotConnected{
             print("接続解除")
+            peerNameArray.removeAtIndex(stateOfPeerDic[peerID.displayName]!)
+            stateOfPeerDic[peerID.displayName]=9
+            dispatch_async(dispatch_get_main_queue(), {() -> Void in
+                self.peerTable.reloadData()
+            })
+
             //上と同様な処理
         }
         
@@ -198,6 +204,8 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     func session(session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, atURL localURL: NSURL, withError error: NSError?) {
         
     }
+    
+    // MARK: MCNearbyServicedelegate
     func browser(browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         
     }
@@ -208,6 +216,8 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
         let alertView = UIAlertController(title: "タイトル", message: "メッセージ", preferredStyle: UIAlertControllerStyle.Alert)
         let acceptAction = UIAlertAction(title: "OK",style: UIAlertActionStyle.Default,handler: {(action:UIAlertAction!) -> Void in
             invitationHandler(true,self.session)
+            self.buttonState = true;
+            
         })
         
         
@@ -227,16 +237,20 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
         
     }
     
+    
+    // MARK: tableview
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return peerNameArray.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("peerCell",forIndexPath: indexPath)
+        let peerName = peerNameArray[indexPath.row]
+        cell.textLabel!.text = peerName
+        return cell
+    }
+    
 
 }
 
 
-class MultipeerData{
-    
-    var connectionState :Bool?
-    
-    var deviceName = ""
-    
-    
-}
 
