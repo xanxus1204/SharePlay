@@ -30,13 +30,15 @@ static void checkError(OSStatus err,const char *message){
     
     AudioStreamBasicDescription inputFormat;
     AudioStreamBasicDescription outputFormat;
-    AudioSessionInitialize(NULL, NULL, NULL, NULL);
-    AudioSessionSetActive(YES);
-    UInt32 audioCategory;
-    audioCategory = kAudioSessionCategory_AudioProcessing;
-    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-                            sizeof(audioCategory),
-                            &audioCategory);
+    AVAudioSession * audiosession =[AVAudioSession sharedInstance];
+    
+    [audiosession setActive:YES error:nil];
+    [audiosession setCategory:AVAudioSessionCategoryAudioProcessing error:nil];
+//    UInt32 audioCategory;
+//    audioCategory = kAudioSessionCategory_AudioProcessing;
+//    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
+//                            sizeof(audioCategory),
+//                            &audioCategory);
     //変換するフォーマット(AAC)
     memset(&outputFormat, 0, sizeof(AudioStreamBasicDescription));
     outputFormat.mSampleRate       = 44100.0;

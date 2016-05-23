@@ -13,17 +13,32 @@ class SecondViewController: UIViewController,MCSessionDelegate,MPMediaPickerCont
 
     let bufferSize = 32768
     
-    var session :MCSession!
+    
+    
+    var session:MCSession!
     
     var peerNameArray:[String] = []
     
     var stateOfPeerDic:Dictionary = ["":9]
     
-    var toplayItem:MPMediaItemCollection!
-
+    var toplayItem:MPMediaItem!
     
+    var player:AVAudioPlayer!
+    
+    var playerUrl:NSURL?
+    
+    var streamingPlayer:StreamingPlayer!
+    
+    
+
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var albumArtView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        streamingPlayer = StreamingPlayer()
+        session.delegate = self
+        streamingPlayer.start()
         
 
         // Do any additional setup after loading the view.
@@ -41,7 +56,7 @@ class SecondViewController: UIViewController,MCSessionDelegate,MPMediaPickerCont
         var tempData = NSMutableData()
         var index = 0
         while index < data.length {
-            index=index+bufferSize
+            
             if (index >= data.length-bufferSize) || (data.length < bufferSize) {
                 splitDataSize = data.length - index
                 buf = Array<Int8>(count: splitDataSize, repeatedValue: 0)
@@ -65,7 +80,7 @@ class SecondViewController: UIViewController,MCSessionDelegate,MPMediaPickerCont
                     
                 }
             }
-            
+            index=index+bufferSize
         }
         
     }
@@ -76,7 +91,9 @@ class SecondViewController: UIViewController,MCSessionDelegate,MPMediaPickerCont
         
     }
     func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
+        print("recv")
         
+        streamingPlayer.recvAudio(data)
     }
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
         
@@ -114,15 +131,43 @@ class SecondViewController: UIViewController,MCSessionDelegate,MPMediaPickerCont
         picker.allowsPickingMultipleItems = false
         presentViewController(picker, animated: true, completion: nil)
     }
+    
+    @IBAction func startButtonTapped(sender: AnyObject) {
+        
+       
+        if playerUrl != nil{
+            if let data = NSData(contentsOfURL: self.playerUrl!) {
+                sendData(data)
+            }
+        }
+
+       
+       
+        
+                
+        
+    }
+    
      // MARK: - MPmediaPicker
     func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        self.toplayItem = mediaItemCollection
-        
+        self.toplayItem = mediaItemCollection.items[0]
+        self.titleLabel.text =  self.toplayItem.valueForProperty(MPMediaItemPropertyTitle) as? String
+        let artwork:MPMediaItemArtwork  = (self.toplayItem.valueForProperty(MPMediaItemPropertyArtwork) as? MPMediaItemArtwork)!
+        self.albumArtView.image = artwork.imageWithSize(artwork.bounds.size)
+       self.playerUrl = prepareAudioStreaming(self.toplayItem)
+        mediaPicker .dismissViewControllerAnimated(true, completion: nil)
+
     }
     func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
         mediaPicker .dismissViewControllerAnimated(true, completion: nil)
     }
 
+    func prepareAudioStreaming(item :MPMediaItem) -> NSURL {
+        let exporter:AudioExporter = AudioExporter()
+        let url = exporter.convertItemtoAAC(item)
+        
+        return url
+    }
 
     /*
     // MARK: - Navigation

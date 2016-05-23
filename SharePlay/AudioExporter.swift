@@ -22,9 +22,9 @@ class AudioExporter: NSObject {
         
         let itemTitleString:String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
         
-        let filePath:String = docDir + itemTitleString + ".m4a"
+        let filePath:String = docDir + "/" + itemTitleString + ".m4a"
         
-        let savePathforCAF:String = docDir + itemTitleString + ".caf"
+        let savePathforCAF:String = docDir + "/" + itemTitleString + ".caf"
         exportSession.outputURL = NSURL(fileURLWithPath: filePath)
         let fileManager:NSFileManager = NSFileManager()
         let saveUrlforCAF:NSURL = NSURL(fileURLWithPath: savePathforCAF)
@@ -37,7 +37,7 @@ class AudioExporter: NSObject {
         }catch{
             print("Cannnot make a direc†ory")
         }
-        let savePathforAAC:String = docDir + itemTitleString + ".aac"
+        let savePathforAAC:String = docDir + "/" + itemTitleString + ".aac"
         let saveUrlforAAC = NSURL(fileURLWithPath: savePathforAAC)
         
         //ここまで準備
@@ -51,12 +51,12 @@ class AudioExporter: NSObject {
             
             converter.convertFrom(exportSession.outputURL, toURL: saveUrlforCAF)
             
-            extConverter.convertFrom(saveUrlforAAC, toURL: saveUrlforCAF)
+            extConverter.convertFrom(saveUrlforCAF, toURL: saveUrlforAAC)
 
             
             
         })
-        return saveUrlforCAF
+        return saveUrlforAAC
         
         
         

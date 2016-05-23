@@ -27,6 +27,8 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     var stateOfPeerDic:Dictionary = ["":9]
     
     var buttonState = false
+    
+    let headName = "abcdefg"
 
     @IBOutlet weak var nameText: UITextField!
     
@@ -36,8 +38,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         nameText.delegate = self
-        nameText.keyboardType = UIKeyboardType.Alphabet
-       
+        
         
         peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
         session = MCSession(peer: peerID)
@@ -58,7 +59,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
         
         if let roomName = self.nameText.text {
             
-            startServerWithName(roomName)
+            startServerWithName(headName + roomName)
         }
        
         
@@ -68,7 +69,7 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     @IBAction func searchButtonTapped(sender: AnyObject) {
         segueFirstToSecond()
         if let roomName = self.nameText.text {
-           startClientWithName(roomName)
+           startClientWithName(headName + roomName)
         }
        
     }
@@ -79,14 +80,12 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
     // MARK: segue
     func segueFirstToSecond(){
         //画面遷移処理
-        if let nextViewController = storyboard?.instantiateViewControllerWithIdentifier("second") as? SecondViewController{
-            
-            self.presentViewController(nextViewController,animated: true,completion: nil)
-        }
+        performSegueWithIdentifier("firstToSecond", sender: nil)
+
 
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "second"{
+        if segue.identifier == "firstToSecond"{
             let secondViewController:SecondViewController = segue.destinationViewController as! SecondViewController
             secondViewController.session = self.session
             secondViewController.peerNameArray = self.peerNameArray
@@ -174,15 +173,17 @@ class FirstViewController: UIViewController,UITextFieldDelegate,MCSessionDelegat
             
            
             stateOfPeerDic[peerID.displayName]=peerNameArray.count
+            print(peerID)
             peerNameArray.append(peerID.displayName)
             dispatch_async(dispatch_get_main_queue(), {() -> Void in
                 self.peerTable.reloadData()
+                if self.buttonState == true{
+                    self.startButton.hidden = false
+                }
+
                 })
             print("接続完了")
-            if self.buttonState == true{
-                self.startButton.hidden = false
-            }
-            if let connection = self.browser{
+                        if let connection = self.browser{
                 connection.stopBrowsingForPeers()
             }
            
