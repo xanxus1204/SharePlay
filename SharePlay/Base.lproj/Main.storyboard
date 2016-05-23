@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -20,7 +20,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="小文字の英数字の組み合わせ" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhP-r7-auZ">
                                 <rect key="frame" x="12" y="42" width="351" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="URL" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XcC-fo-cMn">
                                 <rect key="frame" x="12" y="182" width="351" height="477"/>
@@ -120,9 +120,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgR-7D-ome">
-                                <rect key="frame" x="252" y="47" width="85" height="30"/>
+                                <rect key="frame" x="248" y="47" width="93" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="85" id="Z2j-h8-W4y"/>
+                                    <constraint firstAttribute="width" constant="93" id="NoB-pQ-fUE"/>
                                 </constraints>
                                 <state key="normal" title="曲を選択"/>
                                 <connections>
@@ -132,28 +132,43 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3L8-Fi-DT1">
                                 <rect key="frame" x="67" y="239" width="241" height="226"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="226" id="LpR-1V-Dbx"/>
+                                    <constraint firstAttribute="width" constant="241" id="Amj-cj-6Lx"/>
+                                    <constraint firstAttribute="height" constant="226" id="yey-hT-B5B"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ここに曲のタイトルを表示" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmv-DG-vSG">
                                 <rect key="frame" x="67" y="184" width="241" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="241" id="3Cg-0u-0pr"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7m-gh-FIj">
+                                <rect key="frame" x="120" y="506" width="135" height="30"/>
+                                <state key="normal" title="ストリーミング再生"/>
+                                <connections>
+                                    <action selector="startButtonTapped:" destination="mX2-fW-NuJ" eventType="touchUpInside" id="wfU-2K-usR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JgR-7D-ome" firstAttribute="top" secondItem="rjx-LZ-CJ3" secondAttribute="bottom" constant="27" id="3Y2-3y-QyK"/>
-                            <constraint firstItem="3L8-Fi-DT1" firstAttribute="top" secondItem="Dmv-DG-vSG" secondAttribute="bottom" constant="34" id="AOY-MH-Z8h"/>
-                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="leading" secondItem="fa9-El-JEj" secondAttribute="leadingMargin" constant="51" id="HfI-nT-2IZ"/>
-                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="leading" secondItem="3L8-Fi-DT1" secondAttribute="leading" id="VLt-FZ-Dvg"/>
-                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="trailing" secondItem="3L8-Fi-DT1" secondAttribute="trailing" id="dkc-Ch-fQz"/>
-                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="centerX" secondItem="fa9-El-JEj" secondAttribute="centerX" id="gRj-Ts-QgX"/>
-                            <constraint firstItem="h4T-ra-BxH" firstAttribute="top" secondItem="3L8-Fi-DT1" secondAttribute="bottom" constant="202" id="shx-6A-oSx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="JgR-7D-ome" secondAttribute="trailing" constant="22" id="wNG-T6-DpZ"/>
+                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="centerX" secondItem="fa9-El-JEj" secondAttribute="centerX" id="9fR-LT-VVW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JgR-7D-ome" secondAttribute="trailing" constant="18" id="Glo-jt-cbG"/>
+                            <constraint firstItem="3L8-Fi-DT1" firstAttribute="centerX" secondItem="fa9-El-JEj" secondAttribute="centerX" id="YGc-uG-Eeu"/>
+                            <constraint firstItem="m7m-gh-FIj" firstAttribute="centerX" secondItem="fa9-El-JEj" secondAttribute="centerX" id="grh-D8-2JL"/>
+                            <constraint firstItem="3L8-Fi-DT1" firstAttribute="top" secondItem="Dmv-DG-vSG" secondAttribute="bottom" constant="34" id="roc-Hi-O9R"/>
+                            <constraint firstItem="JgR-7D-ome" firstAttribute="top" secondItem="rjx-LZ-CJ3" secondAttribute="bottom" constant="27" id="wj2-aJ-O7b"/>
+                            <constraint firstItem="Dmv-DG-vSG" firstAttribute="top" secondItem="JgR-7D-ome" secondAttribute="bottom" constant="107" id="xpY-Ql-Eu8"/>
+                            <constraint firstItem="m7m-gh-FIj" firstAttribute="top" secondItem="3L8-Fi-DT1" secondAttribute="bottom" constant="41" id="ymG-wU-5G4"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="albumArtView" destination="3L8-Fi-DT1" id="svw-Wo-cif"/>
+                        <outlet property="titleLabel" destination="Dmv-DG-vSG" id="emH-V0-kn0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJC-JR-Vx0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

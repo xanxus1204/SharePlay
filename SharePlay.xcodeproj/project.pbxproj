@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43218F5C1CF2C7FD00FCDDF1 /* StreamingPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 43218F5B1CF2C7FD00FCDDF1 /* StreamingPlayer.m */; };
 		435CD10E1CC9EF1C009F16FA /* AudioExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD10D1CC9EF1C009F16FA /* AudioExporter.swift */; };
 		435CD1121CCA08E9009F16FA /* AudioConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 435CD1111CCA08E9009F16FA /* AudioConverter.m */; };
 		435CD1151CCA0C2E009F16FA /* ExtAudioConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 435CD1141CCA0C2E009F16FA /* ExtAudioConverter.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43218F5A1CF2C7FD00FCDDF1 /* StreamingPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingPlayer.h; sourceTree = "<group>"; };
+		43218F5B1CF2C7FD00FCDDF1 /* StreamingPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingPlayer.m; sourceTree = "<group>"; };
 		435CD10D1CC9EF1C009F16FA /* AudioExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioExporter.swift; sourceTree = "<group>"; };
 		435CD10F1CCA08E8009F16FA /* SharePlay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SharePlay-Bridging-Header.h"; sourceTree = "<group>"; };
 		435CD1101CCA08E9009F16FA /* AudioConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioConverter.h; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 				435CD1111CCA08E9009F16FA /* AudioConverter.m */,
 				435CD1131CCA0C2E009F16FA /* ExtAudioConverter.h */,
 				435CD1141CCA0C2E009F16FA /* ExtAudioConverter.m */,
+				43218F5A1CF2C7FD00FCDDF1 /* StreamingPlayer.h */,
+				43218F5B1CF2C7FD00FCDDF1 /* StreamingPlayer.m */,
 				43DEC5251CBCB1B5003C8DE0 /* Main.storyboard */,
 				43DEC5281CBCB1B5003C8DE0 /* Assets.xcassets */,
 				43DEC52A1CBCB1B5003C8DE0 /* LaunchScreen.storyboard */,
@@ -158,6 +163,7 @@
 				435CD1121CCA08E9009F16FA /* AudioConverter.m in Sources */,
 				435CD10E1CC9EF1C009F16FA /* AudioExporter.swift in Sources */,
 				43DEC5241CBCB1B5003C8DE0 /* FirstViewController.swift in Sources */,
+				43218F5C1CF2C7FD00FCDDF1 /* StreamingPlayer.m in Sources */,
 				43DEC5221CBCB1B5003C8DE0 /* AppDelegate.swift in Sources */,
 				435CD1151CCA0C2E009F16FA /* ExtAudioConverter.m in Sources */,
 			);
